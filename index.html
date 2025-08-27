@@ -1,33 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The Simpsons</title>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/style-oef.css" />
-
-</head>
-<body>
+    <script src="js/data.js" defer></script>
+    <script src="js/utils.js" defer></script>
+    <script src="js/script.js" defer></script>
+  </head>
+  <body>
     <h1>Homer's World</h1>
     <div class="container">
-        <div class="side-left">
-            <h3>Location</h3>
-            <select id="choise">
-                <option value="all">All</option>
-            </select>
-            <h3>Sort</h3>
-            <select id="sort-items">
-                <option value="nosort">NoSort</option>
-            </select>
-        </div>
+      <div class="side-left">
+        <h3>Location</h3>
+        <select id="choise">
+          <option value="all">All</option>
+        </select>
+        <h3>Sort</h3>
+        <select id="sort-items">
+          <option value="nosort">NoSort</option>
+        </select>
+      </div>
 
-        <div id="overview"> </div>
+      <div id="overview"></div>
 
-        <div class="details"> </div>
+      <div class="details"></div>
 
-        <div id="voices"> </div>
-        <div id="characters"> </div>
+      <div id="voices"></div>
+      <div id="characters"></div>
     </div>
-</body>
+  </body>
 </html>
