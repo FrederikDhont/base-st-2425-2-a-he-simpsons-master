@@ -39,6 +39,7 @@ function initialize() {
   populateLocationSelector();
 
   // Add event listeners
+  locationSelectEl.addEventListener("change", (e) => handleLocationChange(e));
 }
 
 function bindDOMElements() {
@@ -61,6 +62,14 @@ function getLocationsFromData() {
     }
   });
   app.locations.sort();
+}
+
+/* ==========================
+   Event handlers
+   ========================== */
+function handleLocationChange(e) {
+  app.selectedLocationVal = e.target.value;
+  console.log(app.selectedLocationVal);
 }
 
 /* ==========================
@@ -115,6 +124,7 @@ function populateLocationSelector() {
   locationSelectEl.appendChild(new Option("All locations", "all"));
 
   app.locations.forEach((loc) => {
-    locationSelectEl.appendChild(new Option(capitalizeAndFormat(loc), loc));
+    const optionEl = new Option(capitalizeAndFormat(loc), loc);
+    locationSelectEl.appendChild(optionEl);
   });
 }
