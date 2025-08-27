@@ -1,89 +1,82 @@
-.container{
-    display : grid;
-    grid-template-columns: 200px 1fr;
-    grid-template-rows: min-content min-content 1fr;
-    gap: 10px;
-    grid-template-areas:
-        "header header" 
-        "leftside overview"
-        "details overview"
-        "details voices" 
-        "details characters";
+.container {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-template-rows: min-content min-content 1fr;
+  gap: 10px;
+  grid-template-areas:
+    "header header"
+    "leftside overview"
+    "details overview"
+    "details voices"
+    "details characters";
 }
 
-#overview{
-    grid-area : overview;
-    border : 2px solid black;
-    display : flex;
-    flex-wrap: wrap;
-    border-radius: 5px;
+#overview {
+  grid-area: overview;
+  border: 2px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 5px;
 }
 
-#overview div{
-    margin: 10px;
+#overview div {
+  margin: 10px;
 }
 
-#voices{
-    grid-area: voices;
-    display: flex;
-    gap : 20px;
-    padding : 10px;
-    margin : 20px auto;
+#voices {
+  grid-area: voices;
+  display: flex;
+  gap: 20px;
+  padding: 10px;
+  margin: 20px auto;
 }
 
-#characters{
-    grid-area: characters;
-    border : 2px solid black;
-    display: flex;
-    flex-wrap: wrap;
-    gap : 10px;
+#characters {
+  grid-area: characters;
+  border: 2px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-#characters img{
-    width: 100px;
+#characters img {
+  width: 100px;
 }
 
-h1{
-    grid-area: header;
+h1 {
+  grid-area: header;
 }
 
-
-
-.side-left{
-    grid-area: leftside;
-    border: 2px solid black; 
-    border-radius: 5px; 
-    padding-bottom: 20px;
+.side-left {
+  grid-area: leftside;
+  border: 2px solid black;
+  border-radius: 5px;
+  padding-bottom: 20px;
 }
 
-
-
-.details{
-    grid-area : details;
-    border : 2px solid black;
-    padding: 10px;
-    border-radius: 5px;
-    height: min-content;
+.details {
+  grid-area: details;
+  border: 2px solid black;
+  padding: 10px;
+  border-radius: 5px;
+  height: min-content;
 }
 
-
-.detailhdr{
-    color : royalblue;
-    text-align: center;
-    padding-top: 2px;  
-    text-align: center;  
+.detailhdr {
+  color: royalblue;
+  text-align: center;
+  padding-top: 2px;
+  text-align: center;
 }
 
-
-.bg-crimson{
- background-color: crimson;
+.bg-crimson {
+  background-color: crimson;
 }
 
-.bg-deepsky-blue{
-    background-color: deepskyblue;
+.bg-deepsky-blue {
+  background-color: deepskyblue;
 }
 
-.selected{
-    background-color: darkorange;
+.selected {
+  background-color: darkorange;
 }
-
