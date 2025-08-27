@@ -38,6 +38,7 @@ function initialize() {
   populateCards();
   populateLocationSelector();
   populateSortFieldSelector();
+  populateVoiceActorButtons();
 
   // Add event listeners
   locationSelectEl.addEventListener("change", (e) => handleLocationChange(e));
@@ -80,12 +81,6 @@ function applyFiltersToData() {
 function sortData() {
   const sortField = app.selectedSortFieldVal;
 
-  // if (sortField == "nosort") {
-  //   app.filteredData = data;
-  //   applyFiltersToData();
-  //   populateCards();
-  // }
-
   app.filteredData = app.filteredData.sort((a, b) => compare(a, b, sortField));
 }
 
@@ -102,6 +97,16 @@ function compare(a, b, sortField) {
 function getCharacterById(id) {
   const foundChar = data.find((char) => char.picture == id);
   return foundChar;
+}
+
+function getCharactersByVoiceActor(voiceActor) {
+  const actors = [];
+  data.forEach((char) => {
+    if (char.voice == voiceActor) {
+      actors.push(char);
+    }
+  });
+  return actors;
 }
 
 function getRandomQuote(favQuotes) {
@@ -137,6 +142,11 @@ function handleHover(e) {
   const charId = e.target.id;
   const charObj = getCharacterById(charId);
   displayCharacterDetails(charObj);
+}
+
+function handleVoiceActorSelection(e) {
+  const selectedVoiceActor = e.target.id;
+  console.log(getCharactersByVoiceActor(selectedVoiceActor));
 }
 
 /* ==========================
@@ -270,4 +280,21 @@ function displayCharacterDetails(charObj) {
   }
   detailsEl.appendChild(voiceLabel);
   detailsEl.appendChild(voiceEl);
+}
+
+function populateVoiceActorButtons() {
+  voiceActorButtons.innerHTML = "";
+
+  voiceActors.forEach((actor) => {
+    const btn = createHTMLElement({
+      id: actor,
+      tagName: "button",
+      innerText: actor,
+      classes: "btn-yellow",
+      events: {
+        click: (e) => handleVoiceActorSelection(e),
+      },
+    });
+    voiceActorButtons.appendChild(btn);
+  });
 }
