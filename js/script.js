@@ -21,6 +21,8 @@ const app = {
   locations: [],
   selectedLocationVal: "all",
   selectedSortFieldVal: "nosort",
+  selectedVoiceActor: undefined,
+  charsForSelectedVoice: [],
 };
 
 /* ==========================
@@ -99,14 +101,14 @@ function getCharacterById(id) {
   return foundChar;
 }
 
-function getCharactersByVoiceActor(voiceActor) {
+function getCharactersByVoiceActor() {
   const actors = [];
   data.forEach((char) => {
-    if (char.voice == voiceActor) {
+    if (char.voice == app.selectedVoiceActor) {
       actors.push(char);
     }
   });
-  return actors;
+  app.charsForSelectedVoice = actors;
 }
 
 function getRandomQuote(favQuotes) {
@@ -145,8 +147,9 @@ function handleHover(e) {
 }
 
 function handleVoiceActorSelection(e) {
-  const selectedVoiceActor = e.target.id;
-  console.log(getCharactersByVoiceActor(selectedVoiceActor));
+  app.selectedVoiceActor = e.target.id;
+  getCharactersByVoiceActor();
+  displayCardsForSelectedVoiceActor();
 }
 
 /* ==========================
@@ -296,5 +299,20 @@ function populateVoiceActorButtons() {
       },
     });
     voiceActorButtons.appendChild(btn);
+  });
+}
+
+function displayCardsForSelectedVoiceActor() {
+  cardsPerVoiceActorWrapper.innerHTML = "";
+
+  if (app.charsForSelectedVoice < 1) {
+    cardsPerVoiceActorWrapper.innerHTML = "<p>Geen resultaten</p>";
+    return;
+  }
+
+  app.charsForSelectedVoice.forEach((character) => {
+    console.log(character);
+    const el = createCard(character);
+    cardsPerVoiceActorWrapper.appendChild(el);
   });
 }
