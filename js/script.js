@@ -29,6 +29,8 @@ const app = {
 
 function initialize() {
   // Initialize data
+  getLocationsFromData();
+
   // Bind DOM elements
   bindDOMElements();
 
@@ -45,6 +47,19 @@ function bindDOMElements() {
   detailsEl = document.getElementById("details");
   voiceActorButtons = document.getElementById("voices");
   cardsPerVoiceActorWrapper = document.getElementById("characters");
+}
+
+/* ==========================
+   Data logic
+   ========================== */
+function getLocationsFromData() {
+  app.locations = [];
+  data.forEach((char) => {
+    if (char.type != "" && !app.locations.includes(char.type)) {
+      app.locations.push(char.type);
+    }
+  });
+  app.locations.sort();
 }
 
 /* ==========================
@@ -90,6 +105,5 @@ function createCard(character) {
   cardEl.appendChild(imgEl);
 
   // Return result
-  console.log(cardEl);
   return cardEl;
 }
