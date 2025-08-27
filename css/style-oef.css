@@ -80,3 +80,11 @@ h1 {
 .selected {
   background-color: darkorange;
 }
+
+.text-crimson {
+  color: crimson;
+}
+
+.text-darkblue {
+  color: darkslateblue;
+}

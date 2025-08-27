@@ -20,7 +20,7 @@ const app = {
   filteredData: data,
   locations: [],
   selectedLocationVal: "all",
-  selectedSortingVal: "nosort",
+  selectedSortFieldVal: "nosort",
 };
 
 /* ==========================
@@ -41,13 +41,14 @@ function initialize() {
 
   // Add event listeners
   locationSelectEl.addEventListener("change", (e) => handleLocationChange(e));
+  sortFieldSelectEl.addEventListener("change", (e) => handleSortFieldChange(e));
 }
 
 function bindDOMElements() {
   locationSelectEl = document.getElementById("choise");
   sortFieldSelectEl = document.getElementById("sort-items");
   cardsWrapper = document.getElementById("overview");
-  detailsEl = document.getElementById("details");
+  detailsEl = document.querySelector(".details");
   voiceActorButtons = document.getElementById("voices");
   cardsPerVoiceActorWrapper = document.getElementById("characters");
 }
@@ -76,14 +77,66 @@ function applyFiltersToData() {
   });
 }
 
+function sortData() {
+  const sortField = app.selectedSortFieldVal;
+
+  // if (sortField == "nosort") {
+  //   app.filteredData = data;
+  //   applyFiltersToData();
+  //   populateCards();
+  // }
+
+  app.filteredData = app.filteredData.sort((a, b) => compare(a, b, sortField));
+}
+
+function compare(a, b, sortField) {
+  if (a[sortField] < b[sortField]) {
+    return -1;
+  }
+  if (a[sortField] > b[sortField]) {
+    return 1;
+  }
+  return 0;
+}
+
+function getCharacterById(id) {
+  const foundChar = data.find((char) => char.picture == id);
+  return foundChar;
+}
+
+function getRandomQuote(favQuotes) {
+  if (!Array.isArray(favQuotes)) {
+    return favQuotes;
+  }
+
+  const randomIndex = getRandomIndex(favQuotes.length);
+  const randomQuote = favQuotes[randomIndex];
+  return randomQuote;
+}
+
+function getRandomIndex(max) {
+  return Math.floor(Math.random() * max);
+}
+
 /* ==========================
    Event handlers
    ========================== */
 function handleLocationChange(e) {
   app.selectedLocationVal = e.target.value;
-  console.log(app.selectedLocationVal);
   applyFiltersToData();
   populateCards();
+}
+
+function handleSortFieldChange(e) {
+  app.selectedSortFieldVal = e.target.value.toLowerCase();
+  sortData();
+  populateCards();
+}
+
+function handleHover(e) {
+  const charId = e.target.id;
+  const charObj = getCharacterById(charId);
+  displayCharacterDetails(charObj);
 }
 
 /* ==========================
@@ -108,6 +161,8 @@ function createCard(character) {
   // Article
   const cardEl = createHTMLElement({
     tagName: "article",
+    id: character.picture,
+    events: { mouseenter: (e) => handleHover(e) },
   });
 
   // Name
@@ -146,8 +201,73 @@ function populateLocationSelector() {
 function populateSortFieldSelector() {
   sortFieldSelectEl.innerHTML = "";
 
+  sortFieldSelectEl.appendChild(new Option("Default", "nosort"));
+
   sortOrder.forEach((field) => {
     const optionEl = new Option(field, field);
     sortFieldSelectEl.appendChild(optionEl);
   });
+}
+
+function displayCharacterDetails(charObj) {
+  // Data
+  const fullName = `${charObj.firstname} ${charObj.lastname}`;
+  const age = charObj.age;
+  const job = charObj.job;
+  const voiceActor = charObj.voice;
+
+  // Elements
+  const fullNameEl = createHTMLElement({
+    tagName: "h3",
+    innerText: fullName,
+    classes: "text-crimson",
+  });
+
+  const ageLabel = createHTMLElement({
+    tagName: "h4",
+    innerText: "Age",
+    classes: "text-darkblue",
+  });
+  const ageEl = createHTMLElement({ tagName: "p", innerText: age });
+
+  const jobLabel = createHTMLElement({
+    tagName: "h4",
+    innerText: "Job",
+    classes: "text-darkblue",
+  });
+  const jobEl = createHTMLElement({ tagName: "p", innerText: job });
+
+  const voiceLabel = createHTMLElement({
+    tagName: "h4",
+    innerText: "Voice Actor",
+    classes: "text-darkblue",
+  });
+  const voiceEl = createHTMLElement({ tagName: "p", innerText: voiceActor });
+
+  // Quote data & elements
+  let quoteEl = "";
+  let quoteLabel;
+  if (charObj.favorite_quotes) {
+    const quote = getRandomQuote(charObj.favorite_quotes);
+    quoteLabel = createHTMLElement({
+      tagName: "h4",
+      innerText: "Quote",
+      classes: "text-darkblue",
+    });
+    quoteEl = createHTMLElement({ tagName: "p", innerText: quote });
+  }
+
+  // Show card
+  detailsEl.innerHTML = "";
+  detailsEl.appendChild(fullNameEl);
+  detailsEl.appendChild(ageLabel);
+  detailsEl.appendChild(ageEl);
+  detailsEl.appendChild(jobLabel);
+  detailsEl.appendChild(jobEl);
+  if (quoteLabel) {
+    detailsEl.appendChild(quoteLabel);
+    detailsEl.appendChild(quoteEl);
+  }
+  detailsEl.appendChild(voiceLabel);
+  detailsEl.appendChild(voiceEl);
 }

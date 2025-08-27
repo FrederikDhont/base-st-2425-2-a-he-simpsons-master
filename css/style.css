@@ -1,34 +1,46 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
 /* CSS Variables */
 
 :root {
   /* Howest colors */
-  --blue: #44C8F5;
-  --white: #FEFFFF;
-  --pink: #EC008C;
-  --lightpink: #F9B2DC;
-  --yellow: #FFED00;
+  --blue: #44c8f5;
+  --white: #feffff;
+  --pink: #ec008c;
+  --lightpink: #f9b2dc;
+  --yellow: #ffed00;
   --lighyellow: #fffded;
-  --green: #009A93;
-  --lightgreen: #EAF5F5;
+  --green: #009a93;
+  --lightgreen: #eaf5f5;
   --black: #000000;
 }
 
 body {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   background-color: var(--white);
   color: var(--black);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: var(--blue);
   text-align: center;
+  margin-block: 0;
+  margin-block-start: 0.5rem;
+}
+
+p {
+  margin-block: 0;
+  margin-block-start: 0.25rem;
 }
 
 /* Buttons */
 
 button {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   padding: 10px 20px;
   border-radius: 5px;
   border-style: solid;
@@ -66,10 +78,9 @@ button {
 /* Selects */
 
 select {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   padding: 10px 10px 10px 20px;
   border-radius: 5px;
   border-style: solid;
   margin-left: 10px;
 }
-
