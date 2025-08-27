@@ -86,3 +86,30 @@ function capitalizeAndFormat(str) {
   // Uppercase first character + rest of string
   return replaced.charAt(0).toUpperCase() + replaced.slice(1);
 }
+
+/**
+ * Fetches data from an external API endpoint via GET request
+ * @param {string} url - The URL of the API endpoint
+ * @returns {Promise<any>} Promise that resolves with the JSON response data
+ * @throws {Error} Throws an error if the request fails
+ *
+ * @example
+ * const joke = await fetchData('https://api.chucknorris.io/jokes/random');
+ * console.log(joke.value);
+ */
+async function fetchOnlineData(url) {
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      const error = new Error(
+        `HTTP ${response.status}: ${response.statusText}`
+      );
+      console.log(error);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+  }
+}

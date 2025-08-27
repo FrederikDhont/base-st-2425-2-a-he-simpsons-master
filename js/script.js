@@ -3,9 +3,16 @@
 window.addEventListener("load", initialize);
 
 // Data variables
-const data = members;
+const offlineData = members;
+const urlOnlineData =
+  "https://howest-gp-wfa.github.io/Json-from-server-2425/api/simpsons.json";
 const sortOrder = ["Age", "Firstname", "Lastname"];
-const voiceActors = ["Dan Castellaneta", "Nancy Cartwright", "Hank Azaria"];
+const voiceActorsOffline = [
+  "Dan Castellaneta",
+  "Nancy Cartwright",
+  "Hank Azaria",
+];
+let voiceActors = voiceActorsOffline;
 
 // DOM elements
 let locationSelectEl;
@@ -14,10 +21,12 @@ let cardsWrapper;
 let detailsEl;
 let voiceActorButtons;
 let cardsPerVoiceActorWrapper;
+let btnDataSrcToggle;
 
 // App state
 const app = {
-  filteredData: data,
+  useOnlineData: false,
+  filteredData: offlineData,
   locations: [],
   selectedLocationVal: "all",
   selectedSortFieldVal: "nosort",
@@ -45,6 +54,7 @@ function initialize() {
   // Add event listeners
   locationSelectEl.addEventListener("change", (e) => handleLocationChange(e));
   sortFieldSelectEl.addEventListener("change", (e) => handleSortFieldChange(e));
+  btnDataSrcToggle.addEventListener("click", handleDataSourceToggle);
 }
 
 function bindDOMElements() {
@@ -54,6 +64,7 @@ function bindDOMElements() {
   detailsEl = document.querySelector(".details");
   voiceActorButtons = document.getElementById("voices");
   cardsPerVoiceActorWrapper = document.getElementById("characters");
+  btnDataSrcToggle = document.getElementById("data-source-toggle");
 }
 
 /* ==========================
@@ -61,7 +72,7 @@ function bindDOMElements() {
    ========================== */
 function getLocationsFromData() {
   app.locations = [];
-  data.forEach((char) => {
+  offlineData.forEach((char) => {
     if (char.type != "" && !app.locations.includes(char.type)) {
       app.locations.push(char.type);
     }
@@ -70,7 +81,7 @@ function getLocationsFromData() {
 }
 
 function applyFiltersToData() {
-  app.filteredData = data.filter((char) => {
+  app.filteredData = offlineData.filter((char) => {
     // Location filter
     if (app.selectedLocationVal && app.selectedLocationVal !== "all") {
       if (char.type != app.selectedLocationVal) return false;
@@ -97,13 +108,13 @@ function compare(a, b, sortField) {
 }
 
 function getCharacterById(id) {
-  const foundChar = data.find((char) => char.picture == id);
+  const foundChar = offlineData.find((char) => char.picture == id);
   return foundChar;
 }
 
 function getCharactersByVoiceActor() {
   const actors = [];
-  data.forEach((char) => {
+  offlineData.forEach((char) => {
     if (char.voice == app.selectedVoiceActor) {
       actors.push(char);
     }
@@ -123,6 +134,17 @@ function getRandomQuote(favQuotes) {
 
 function getRandomIndex(max) {
   return Math.floor(Math.random() * max);
+}
+
+function useOfflineData() {
+  app.filteredData = offlineData;
+  voiceActors = voiceActorsOffline;
+}
+
+async function useOnlineData() {
+  const onlineData = await fetchOnlineData(urlOnlineData);
+  app.filteredData = onlineData.characters;
+  voiceActors = onlineData.voices;
 }
 
 /* ==========================
@@ -149,6 +171,30 @@ function handleHover(e) {
 function handleVoiceActorSelection(e) {
   app.selectedVoiceActor = e.target.id;
   getCharactersByVoiceActor();
+  displayCardsForSelectedVoiceActor();
+}
+
+async function handleDataSourceToggle() {
+  // If using online data, switch to offline data
+  if (app.useOnlineData) {
+    useOfflineData();
+    btnDataSrcToggle.innerText = "Use Online Data";
+  }
+
+  // If using offline data, switch to online data
+  else {
+    await useOnlineData();
+    btnDataSrcToggle.innerText = "Use Offline Data";
+  }
+
+  app.useOnlineData = !app.useOnlineData;
+  app.selectedLocationVal = "all";
+  app.selectedSortFieldVal = "nosort";
+  app.selectedVoiceActor = undefined;
+
+  applyFiltersToData();
+  populateCards();
+  populateVoiceActorButtons();
   displayCardsForSelectedVoiceActor();
 }
 
@@ -305,8 +351,8 @@ function populateVoiceActorButtons() {
 function displayCardsForSelectedVoiceActor() {
   cardsPerVoiceActorWrapper.innerHTML = "";
 
-  if (app.charsForSelectedVoice < 1) {
-    cardsPerVoiceActorWrapper.innerHTML = "<p>Geen resultaten</p>";
+  if (!app.selectedVoiceActor) {
+    cardsPerVoiceActorWrapper.innerHTML = "<p>Select a voice actor</p>";
     return;
   }
 

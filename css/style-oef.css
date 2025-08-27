@@ -88,3 +88,8 @@ h1 {
 .text-darkblue {
   color: darkslateblue;
 }
+
+#data-source-toggle {
+  margin-inline: 0.5rem;
+  margin-block-start: 0.5rem;
+}
