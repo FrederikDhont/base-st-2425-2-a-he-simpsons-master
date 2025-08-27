@@ -94,6 +94,13 @@ function applyFiltersToData() {
 function sortData() {
   const sortField = app.selectedSortFieldVal;
 
+  console.log(app.selectedSortFieldVal);
+
+  if (app.selectedSortFieldVal == "nosort") {
+    location.reload();
+    return;
+  }
+
   app.filteredData = app.filteredData.sort((a, b) => compare(a, b, sortField));
 }
 
