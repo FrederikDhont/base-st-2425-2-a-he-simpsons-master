@@ -64,12 +64,25 @@ function getLocationsFromData() {
   app.locations.sort();
 }
 
+function applyFiltersToData() {
+  app.filteredData = data.filter((char) => {
+    // Location filter
+    if (app.selectedLocationVal && app.selectedLocationVal !== "all") {
+      if (char.type != app.selectedLocationVal) return false;
+    }
+
+    return true;
+  });
+}
+
 /* ==========================
    Event handlers
    ========================== */
 function handleLocationChange(e) {
   app.selectedLocationVal = e.target.value;
   console.log(app.selectedLocationVal);
+  applyFiltersToData();
+  populateCards();
 }
 
 /* ==========================
