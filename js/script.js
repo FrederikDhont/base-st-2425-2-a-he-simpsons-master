@@ -9,7 +9,7 @@ const voiceActors = ["Dan Castellaneta", "Nancy Cartwright", "Hank Azaria"];
 
 // DOM elements
 let locationSelectEl;
-let sortSelectEl;
+let sortFieldSelectEl;
 let cardsWrapper;
 let detailsEl;
 let voiceActorButtons;
@@ -37,6 +37,7 @@ function initialize() {
   // Initialize GUI
   populateCards();
   populateLocationSelector();
+  populateSortFieldSelector();
 
   // Add event listeners
   locationSelectEl.addEventListener("change", (e) => handleLocationChange(e));
@@ -44,7 +45,7 @@ function initialize() {
 
 function bindDOMElements() {
   locationSelectEl = document.getElementById("choise");
-  sortSelectEl = document.getElementById("sort-items");
+  sortFieldSelectEl = document.getElementById("sort-items");
   cardsWrapper = document.getElementById("overview");
   detailsEl = document.getElementById("details");
   voiceActorButtons = document.getElementById("voices");
@@ -139,5 +140,14 @@ function populateLocationSelector() {
   app.locations.forEach((loc) => {
     const optionEl = new Option(capitalizeAndFormat(loc), loc);
     locationSelectEl.appendChild(optionEl);
+  });
+}
+
+function populateSortFieldSelector() {
+  sortFieldSelectEl.innerHTML = "";
+
+  sortOrder.forEach((field) => {
+    const optionEl = new Option(field, field);
+    sortFieldSelectEl.appendChild(optionEl);
   });
 }
