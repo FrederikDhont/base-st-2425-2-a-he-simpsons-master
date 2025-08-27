@@ -36,6 +36,7 @@ function initialize() {
 
   // Initialize GUI
   populateCards();
+  populateLocationSelector();
 
   // Add event listeners
 }
@@ -106,4 +107,14 @@ function createCard(character) {
 
   // Return result
   return cardEl;
+}
+
+function populateLocationSelector() {
+  locationSelectEl.innerHTML = "";
+
+  locationSelectEl.appendChild(new Option("All locations", "all"));
+
+  app.locations.forEach((loc) => {
+    locationSelectEl.appendChild(new Option(capitalizeAndFormat(loc), loc));
+  });
 }

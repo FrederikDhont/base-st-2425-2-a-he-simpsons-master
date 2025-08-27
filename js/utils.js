@@ -66,3 +66,23 @@ function createHTMLElement({
 
   return element;
 }
+
+/**
+ * Capitalizes the first letter of a string and replaces all "-" with spaces.
+ *
+ * @param {string} str - The input string
+ * @returns {string} The transformed string
+ *
+ * @example
+ * capitalizeAndFormat("hello-world") // "Hello world"
+ * capitalizeAndFormat("make-it-nice") // "Make it nice"
+ */
+function capitalizeAndFormat(str) {
+  if (typeof str !== "string" || !str.length) return str;
+
+  // Replace - with whitespace
+  const replaced = str.replace("-", " ");
+
+  // Uppercase first character + rest of string
+  return replaced.charAt(0).toUpperCase() + replaced.slice(1);
+}
